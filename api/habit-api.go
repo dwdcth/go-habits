@@ -3,10 +3,12 @@ package api
 import (
 	"bytes"
 	"encoding/json"
+	log "github.com/amoghe/distillog"
 	"io/ioutil"
 	"net/http"
-
-	log "github.com/amoghe/distillog"
+	"net/url"
+	"os"
+	"strings"
 )
 
 // HabiticaAPI Main client for interacting with Habitica API via HTTP
@@ -32,6 +34,15 @@ func NewHabiticaAPI(client *http.Client, hosturl string, logger log.Logger) *Hab
 	if client == nil {
 		api.client = &http.Client{}
 		api.logger.Debugln("No client configured in, using default client")
+	}
+	proxyUrl := os.Getenv("HTTP_PROXY")
+	if proxyUrl != "" {
+		proxy, err := url.Parse(strings.TrimSpace(proxyUrl))
+		if err != nil {
+			api.logger.Errorln("Failed to parse proxy url,run with no proxy", err)
+		} else {
+			api.client.Transport = &http.Transport{Proxy: http.ProxyURL(proxy)}
+		}
 	}
 
 	api.hostURL = hosturl

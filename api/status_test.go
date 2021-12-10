@@ -1,6 +1,7 @@
 package api_test
 
 import (
+	"fmt"
 	"math/rand"
 
 	. "github.com/8Mobius8/go-habits/api"
@@ -83,7 +84,7 @@ var (
 	RandomServerStatus = `{
 		"success": true,
 		"data": {
-			"status": "` + string(rand.Int63n(5000)) + `"
+			"status": "` + fmt.Sprint(rand.Int63n(5000)) + `"
 		}
 	}`
 	EmptyServerstatus = `{

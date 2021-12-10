@@ -1,10 +1,11 @@
 .vscode
 
 go-habits
-.go-habits.yml
 
 *coverprofile
 *.cov
 c.out
 
 vendor
+*.exe
+.idea/

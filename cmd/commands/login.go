@@ -30,7 +30,11 @@ type Authenticator interface {
 // file. The file must be previously created.
 func Login(in io.Reader, out io.Writer, as Authenticator, args []string) {
 	user := scanForUserCreds(in, out)
-	creds, _ := as.Authenticate(user.UserName, user.Password)
+	creds, err := as.Authenticate(user.UserName, user.Password)
+	if creds.ID == "" || err != nil {
+		fmt.Fprintln(out, "Login failed", err)
+		return
+	}
 	fmt.Fprintln(out, "Login Successful <3")
 	setAuthConfig(creds)
 	saveToConfigFile(out)

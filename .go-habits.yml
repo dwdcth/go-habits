@@ -1,0 +1,5 @@
+auth:
+  local:
+    apitoken: ""
+    id: ""
+server: http://habitica.com/api
